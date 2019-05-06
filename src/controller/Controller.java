@@ -43,7 +43,7 @@ public class Controller {
 			case 0:
 				view.printMessage("Ingrese semestre a cargar (1 o 2)");
 				int semestre = sc.nextInt();
-				view.printMessage(Integer.toString(this.loadMovingViolations(semestre)));
+				view.printMessage("Se cargaron " + Integer.toString(this.loadMovingViolations(semestre))+ " datos");
 				break;
 
 			case 1:	
@@ -82,12 +82,12 @@ public class Controller {
 		try{
 			for(int f = limInf ; f < limSup ; f++){
 				dataFile = "." + File.separator + "data" + File.separator + listaMes[f] + "_wgs84.csv";
-				CSVReader reader = new CSVReader(new FileReader(dataFile)); 
-				reader.skip(1);
+				@SuppressWarnings("deprecation")
+				CSVReader reader = new CSVReader(new FileReader(dataFile), ';' , '"' , 1); 
 				view.printMessage(listaMes[f]);
+				
 				String [] nextLine;
 				while ((nextLine = reader.readNext()) != null) {
-					view.printMessage(nextLine[0]);
 					total++;
 					if (nextLine.length == 18)
 						infraccion = new VOMovingViolations(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4], nextLine[5], nextLine[6], nextLine[7], nextLine[8], nextLine[9], nextLine[10], nextLine[11], nextLine[12], nextLine[13], nextLine[14], nextLine[15], nextLine[16], nextLine[17]);
@@ -99,7 +99,6 @@ public class Controller {
 
 			}
 			
-			view.printMessage("Se cargo exitosmente");
 			return total;
 		}
 		catch (Exception e)
