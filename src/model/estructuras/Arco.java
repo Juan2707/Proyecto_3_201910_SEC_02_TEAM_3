@@ -31,8 +31,7 @@ public class Arco<K, V, A> {
 	 * @param idVertexFin Vértice hacia donde se dirige el arco
 	 * @param pInfoArco Elemento en el arco
 	 */
-	public Arco( K idVertexIni, K idVertexFin, A pInfoArco )
-	{
+	public Arco( K idVertexIni, K idVertexFin, A pInfoArco ){
 		origen = idVertexIni;
 		destino = idVertexFin;
 		infoArco = pInfoArco;
@@ -46,8 +45,7 @@ public class Arco<K, V, A> {
 	 * Devuelve el elemento del arco
 	 * @return Elemento en el arco
 	 */
-	public A darInfoArco( )
-	{
+	public A darInfoArco( ){
 		return infoArco;
 	}
 
@@ -55,8 +53,7 @@ public class Arco<K, V, A> {
 	 * Devuelve el vértice de destino del arco
 	 * @return vértice de destino del arco
 	 */
-	public K darVerticeDestino( )
-	{
+	public K darVerticeDestino( ){
 		return destino;
 	}
 

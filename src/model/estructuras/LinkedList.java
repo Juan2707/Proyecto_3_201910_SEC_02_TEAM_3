@@ -22,8 +22,7 @@ public class LinkedList<T> {
 		return ultimo;
 	}
 
-	public LinkedList()
-	{
+	public LinkedList(){
 		primero = null;
 		ultimo = null;
 		tamano = 0;
@@ -59,7 +58,7 @@ public class LinkedList<T> {
 			ultimo.cambiarSiguiente(nodo);
 			nodo.cambiarAnterior(ultimo);
 			ultimo=nodo;
-			
+
 			tamano ++;
 		}
 	}
@@ -102,7 +101,7 @@ public class LinkedList<T> {
 			tamano --;
 		}
 	}
-	
+
 	/*
 	 * busca por tamano
 	 */

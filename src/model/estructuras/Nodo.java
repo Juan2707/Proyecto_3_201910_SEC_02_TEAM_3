@@ -11,16 +11,14 @@ public class Nodo<T> {
 
 	private Nodo<T> siguiente;
 
-	public Nodo( T pElemento )
-	{
+	public Nodo( T pElemento ){
 		elemento = pElemento;
 		anterior = null;
 		siguiente = null;
 
 	}
 
-	public T darElemento( )
-	{
+	public T darElemento( ){
 		return elemento;
 	}
 	

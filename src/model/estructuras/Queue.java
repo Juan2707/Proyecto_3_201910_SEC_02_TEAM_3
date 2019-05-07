@@ -48,11 +48,11 @@ public class Queue<T>  {
 			ultimo=n;
 		}
 		else{
-			
+
 			n.cambiarSiguiente(ultimo);
 			ultimo.cambiarAnterior(n);
 			ultimo=n;
-			
+
 		}
 		tamano++;
 
@@ -71,7 +71,7 @@ public class Queue<T>  {
 		else{
 			primero=primero.darAnterior();
 			primero.cambiarSiguiente(null);
-			
+
 		}
 		tamano--;
 		return ret.darElemento();

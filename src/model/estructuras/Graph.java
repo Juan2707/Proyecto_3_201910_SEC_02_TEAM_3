@@ -54,18 +54,18 @@ public class Graph<K,V,A> implements IGraph<K, V, A> {
 			System.out.println(a);
 			nodos.add(a);
 			//........nodos.add(a)........
-			
+
 		}
 		else{
 			if(getInfoVertex(idVertex)!=null){
 				throw new Exception("ya existe");
 			}
-		Vertice<K, V> a = new Vertice<>();
-		a.cambiarInfo(infoVertex);
-		a.setId(idVertex);
-		v++;	
-		nodos.add(a);
-		//........nodos.add(a)........
+			Vertice<K, V> a = new Vertice<>();
+			a.cambiarInfo(infoVertex);
+			a.setId(idVertex);
+			v++;	
+			nodos.add(a);
+			//........nodos.add(a)........
 		}
 	}
 
@@ -77,9 +77,9 @@ public class Graph<K,V,A> implements IGraph<K, V, A> {
 		if(getInfoArc(idVertexIni, idVertexFin)!=null){
 			throw new Exception("este arco ya existe");
 		}else{
-		Arco<K, K, A> a = new Arco(idVertexIni, idVertexFin, infoArc);
-		e++;	
-		arcos.add(a);
+			Arco<K, K, A> a = new Arco(idVertexIni, idVertexFin, infoArc);
+			e++;	
+			arcos.add(a);
 		}
 	}
 
@@ -165,15 +165,15 @@ public class Graph<K,V,A> implements IGraph<K, V, A> {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Vertice<K, V>> darListaNodos(){
 		return nodos;
 	}
-	
+
 	public ArrayList<Arco<K, K, A>> darListaArcos(){
 		return arcos;
 	}
-	
+
 	public String toString(K idVertex){
 		Vertice<K, V> e = getVertex(idVertex);
 		return ("''"+e.darID()+"'':{ \n"+"''lat'':"+e.darInfo()+", \n"+"''lon'':"+e.darInfo()+"''adj'':"+adj(e.darID())+"\n }");

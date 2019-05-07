@@ -13,8 +13,7 @@ public class NodoLinkedList<T> {
 	
 	int pos;
 
-	public NodoLinkedList( T pElemento, int ppos )
-	{
+	public NodoLinkedList( T pElemento, int ppos ){
 		pos = ppos;
 		elemento = pElemento;
 		anterior = null;
@@ -22,8 +21,7 @@ public class NodoLinkedList<T> {
 
 	}
 
-	public T darElemento( )
-	{
+	public T darElemento( ){
 		return elemento;
 	}
 	
