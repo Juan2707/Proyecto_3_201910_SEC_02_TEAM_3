@@ -4,29 +4,67 @@ package model.violations;
  * Representation of a Trip object
  */
 public class VOMovingViolations {
+	
 
-	private String objectId, row, location, addresId, streetSegid,  xCoord, yCoord, ticketType, fineAmt, totalPaid, penalty1, penalty2, accidentIndicator, agencyid, ticketsIssuedate, violationCode, violationDesc, row_id;
+	// ---------------------------------------------------------
+	// Atributos
+	// ---------------------------------------------------------
 
-	public VOMovingViolations(String pObjectId, String pRow, String pLocation, String pAddresId, String pStreetSegid, String pXCoord, String pYCoord, String pTicketType, String pFineAmt, String pTotalPaid, String pPenalty1, String pPenalty2, String pAccidentIndicator, String pAgencyid, String pTicketsIssuedate, String pViolationCode, String pViolationDesc, String pRow_id){
-		objectId= pObjectId;
-		row=pRow;
-		location=pLocation;
-		addresId=pAddresId;
-		streetSegid= pStreetSegid;
-		xCoord=pXCoord;
-		yCoord=pYCoord;
-		ticketType=pTicketType;
-		fineAmt=pFineAmt;
-		totalPaid=pTotalPaid;
-		penalty1=pPenalty1;
-		penalty2=pPenalty2;
-		accidentIndicator=pAccidentIndicator;
-		agencyid = pAgencyid;
-		ticketsIssuedate=pTicketsIssuedate;
-		violationCode=pViolationCode;
-		violationDesc=pViolationDesc;
-		row_id = pRow_id;
+	private int OBJECTID;
+
+	private String LOCATION;
+	
+	private String TICKETISSUEDATE;
+	
+	private double TOTALPAID;
+	
+	private String ACCIDENTINDICATOR;
+	
+	private String VIOLATIONCODE;
+
+	private String VIOLATIONDESC;
+
+	private String STREETSEGID;
+
+	private String ADDRESS_ID;
+	
+	private double XCOORD;
+
+	private double YCOORD;
+	
+	private double FINEAMT;
+	
+	private double PENALTY1;
+	
+	private double PENALTY2;
+
+	// -------------------------------------------------------
+	// Constructor
+	// -------------------------------------------------------
+	
+	public VOMovingViolations(int pId, String pLocation, String pDate, double pTotalPaid, String indicador,
+			String descripcion, String violationCode, double fineamt, double penalty1, double penalty2, 
+			String addressId, String streetSegId)
+	{
+		this.OBJECTID = pId;
+		this.LOCATION = pLocation;
+		this.TICKETISSUEDATE= pDate;
+		this.TOTALPAID = pTotalPaid;
+		this.ACCIDENTINDICATOR = indicador;
+		this.VIOLATIONDESC = descripcion;
+		this.VIOLATIONCODE = violationCode;
+		this.FINEAMT = fineamt;
+		this.PENALTY1 = penalty1; 
+		this.PENALTY2 = penalty2;
+		this.STREETSEGID = streetSegId;
+		this.ADDRESS_ID = addressId;
 	}
+
+	// -------------------------------------------------------
+	// Metodos
+	// -------------------------------------------------------
+
+	
 	@Override
 	public String toString() {
 		return "VOMovingViolations [objectId()=" + objectId() + ",\n getLocation()=" + getLocation()
@@ -41,77 +79,74 @@ public class VOMovingViolations {
 	 * @return id - Identificador único de la infracción
 	 */
 	public int objectId() {
-		// TODO Auto-generated method stub
-		return Integer.parseInt(objectId);
+		return this.OBJECTID;
 	}	
 	
+	public String getViolationCode(){
+		return this.VIOLATIONCODE;
+	}
 	
 	/**
 	 * @return location - Dirección en formato de texto.
 	 */
 	public String getLocation() {
-		// TODO Auto-generated method stub
-		return location;
-	}
-	
-	/**
-	 * @return agencyid - Dirección en formato de texto.
-	 */
-	public String getAgencyId() {
-		// TODO Auto-generated method stub
-		return agencyid;
+		return this.LOCATION;
 	}
 
 	/**
 	 * @return date - Fecha cuando se puso la infracción .
 	 */
 	public String getTicketIssueDate() {
-		// TODO Auto-generated method stub
-		return ticketsIssuedate;
+		return this.TICKETISSUEDATE;
 	}
 	
 	/**
 	 * @return totalPaid - Cuanto dinero efectivamente pagó el que recibió la infracción en USD.
 	 */
-	public Double getTotalPaid() {
-		// TODO Auto-generated method stub
-		return Double.parseDouble(totalPaid);
+	public double getTotalPaid() {
+		return this.TOTALPAID;
 	}
 	
 	/**
 	 * @return accidentIndicator - Si hubo un accidente o no.
 	 */
 	public String  getAccidentIndicator() {
-		// TODO Auto-generated method stub
-		return accidentIndicator;
+		return this.ACCIDENTINDICATOR;
 	}
 		
 	/**
 	 * @return description - Descripción textual de la infracción.
 	 */
 	public String  getViolationDescription() {
-		// TODO Auto-generated method stub
-		return violationDesc;
-	}
-	public String  getViolationCode() {
-		// TODO Auto-generated method stub
-		return violationCode;
+		return this.VIOLATIONDESC;
 	}
 	
 	public String getStreetSegId() {
-		return streetSegid;
+		return this.STREETSEGID;
 	}
 	
 	public String getAddressId() {
-		return addresId;
+		return this.ADDRESS_ID;
 	}
-    public String getKeyCoord(){
-    	return xCoord+"-"+yCoord;
-    }
-    public String getXCoord(){
-    	return xCoord;
-    }
-    public String getYCoord(){
-    	return yCoord;
-    }
+	
+	public double getXCoord() {
+		return this.XCOORD;
+	}
+	
+	public double getYCoord() {
+		return this.YCOORD;
+	}
+	
+	public double getFineAMT() {
+		return this.FINEAMT;
+	}
+	
+	public double getPenalty1() {
+		return this.PENALTY1;
+	}
+	
+	public double getPenalty2() {
+		return this.PENALTY2;
+	}
+
 }
