@@ -1,6 +1,8 @@
 package lector;
 
+import data_structures.Queue;
 import data_structures.grafo.IVertice;
+import model.violations.VOMovingViolations;
 
 public class Node implements IVertice<String>{
 
@@ -12,11 +14,14 @@ public class Node implements IVertice<String>{
 	private double lat;
 	//XML element tag
 	private double tag;
+	
+	private Queue<VOMovingViolations> infracciones;
 
 	public Node (String pId, double pLon, double pLat) {
 		id = pId;
 		lon = pLon;
 		lat = pLat;
+		infracciones = new Queue<VOMovingViolations>();
 	}
 
 
@@ -41,6 +46,14 @@ public class Node implements IVertice<String>{
 		this.lon = lon;
 	}
 
+	public void agregarInfraccion(VOMovingViolations pViolation) {
+		infracciones.enqueue(pViolation);
+	}
+	
+	public Queue<VOMovingViolations> darInfracciones() {
+		return infracciones;
+	}
+	
 	public String toString() {
 		return this.id + ":" + this.lat +  ":" + this.lon;
 	}

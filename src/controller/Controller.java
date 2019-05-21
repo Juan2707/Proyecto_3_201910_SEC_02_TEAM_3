@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,12 +9,15 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
+import com.opencsv.CSVReader;
 
 import data_structures.*;
 import data_structures.grafo.*;
 import data_structures.true_graph.*;
 import lector.*;
 import lector.Node;
+import model.violations.VOMovingViolations;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -27,24 +31,35 @@ public class Controller {
 
 	//TODO Definir los atributos de estructuras de datos del modelo del mundo del proyecto
 
-	RedBlackBST<String, Node> Nodes = new RedBlackBST();
+	RedBlackBST<String, Node> Node;
+	
+	RedBlackBST<String, VOMovingViolations> infracciones;
 
-	ArrayList<Way> ways = new ArrayList();
+	ArrayList<Way> ways;
 
-	ArrayList<arcs> arcos= new ArrayList();
+	ArrayList<arcs> arcos;
 
-	ArrayList<String> llaves = new ArrayList();
+	ArrayList<String> llaves;
 
 	Graph<String, Node, Integer> grafoData;
+	
+	private String[] listaMes;
 
 	/**
 	 * Metodo constructor
 	 */
 	public Controller()
 	{
-
+		ways = new ArrayList<Way>();
+		arcos= new ArrayList();
+		llaves = new ArrayList();
+		infracciones = new RedBlackBST<String, VOMovingViolations>();
+		Node = new RedBlackBST<String, Node>();
+		listaMes = new String[]{"January" , "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 		grafoData = new Graph<String, Node, Integer>(745747);
 		view = new MovingViolationsManagerView();
+		
+		loadMovingViolations();
 	}
 
 	/**
@@ -283,6 +298,7 @@ public class Controller {
 			SeparateChainingHash<String, Queue<Arco<String, String>>> arcosEnCola = new SeparateChainingHash<String, Queue<Arco<String, String>>>(822250);
 			String id = "";
 			String idAdyacente = "";
+			String idInfraccion = "";
 			Double lat = null;
 			Double lon = null;
 
@@ -293,6 +309,8 @@ public class Controller {
 
 			Node nodoAdyacente = null;
 			Node nodo;
+			
+			VOMovingViolations violation;
 
 			for (Object object : json ) {
 
@@ -311,11 +329,20 @@ public class Controller {
 				nodoAdyacente = null;
 
 				nodo = new Node(id, lon, lat);
-				grafoData.addVertex(id, nodo);
+				
+				while(iteratorArrayInfracciones.hasNext()) {
+					idInfraccion = iteratorArrayInfracciones.next();
+					if ( infracciones.contains(idInfraccion) ) {
+						violation = infracciones.get(idInfraccion);
+						nodo.agregarInfraccion(violation);
+					}
+				}
 
+				
+				grafoData.addVertex(id, nodo);
 				if (arcosEnCola.get(id) != null) {
 					for (Arco arco : arcosEnCola.get(id)) {
-						if ( grafoData.getInfoArc(arco.darVerticeFin().toString(), arco.darVerticeIni().toString()) != null) {
+						if ( grafoData.getInfoArc(arco.darVerticeFin().toString(), arco.darVerticeIni().toString()) != null ) {
 							grafoData.addEdge(arco.darVerticeIni().toString(), arco.darVerticeFin().toString(), Integer.parseInt(arco.darInfo().toString()));
 						}
 					}
@@ -347,6 +374,18 @@ public class Controller {
 
 			view.printMessage(Integer.toString(grafoData.E()));
 			view.printMessage(Integer.toString(grafoData.V()));
+			
+
+			while (grafoData.verts().hasNext()) {
+				String key = grafoData.verts().next();
+				
+				while(grafoData.getInfoVertex(key).darInfracciones().iterator().hasNext()) {
+					VOMovingViolations VOMoving = grafoData.getInfoVertex(key).darInfracciones().iterator().next();
+					view.printMessage(VOMoving.getAddressId());
+					
+				}
+
+			}
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -360,6 +399,47 @@ public class Controller {
 		}
 
 
+	}
+	
+	/**
+	 * Cargar las infracciones de un semestre de 2018
+	 * @param numeroSemestre numero del semestre a cargar (1 o 2)
+	 * @return objeto con el resultado de la carga de las infracciones
+	 */
+	public void loadMovingViolations() {
+		int total = 0;
+		Queue<VOMovingViolations> colaTemp;
+		VOMovingViolations infraccion;
+
+		String dataFile;
+		try{
+			for(int f = 0 ; f < 12 ; f++){
+				dataFile = "." + File.separator + "data" + File.separator + listaMes[f] + "_wgs84.csv";
+				@SuppressWarnings("deprecation")
+				CSVReader reader = new CSVReader(new FileReader(dataFile), ';' , '"' , 1); 
+				
+				String [] nextLine;
+				while ((nextLine = reader.readNext()) != null) {
+					total++;
+					if (nextLine.length == 18)
+						infraccion = new VOMovingViolations(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4], nextLine[5], nextLine[6], nextLine[7], nextLine[8], nextLine[9], nextLine[10], nextLine[11], nextLine[12], nextLine[13], nextLine[14], nextLine[15], nextLine[16], nextLine[17]);
+					else 
+						infraccion = new VOMovingViolations(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4], nextLine[5], nextLine[6], nextLine[7], nextLine[8], nextLine[9], nextLine[10], nextLine[11], nextLine[12], " ", nextLine[13], nextLine[14], nextLine[15], nextLine[16]);
+					
+					infracciones.put(infraccion.getObjectId(), infraccion);
+				}
+				reader.close();
+
+			}
+		}
+		catch (Exception e){
+			// TODO: handle exception			
+			e.printStackTrace();
+			System.out.println("Falló");
+		}
+		
+		view.printMessage(Integer.toString(infracciones.size()));
+		
 	}
 
 
