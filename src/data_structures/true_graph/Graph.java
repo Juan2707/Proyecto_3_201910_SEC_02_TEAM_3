@@ -146,8 +146,14 @@ public class Graph<K extends Comparable<K>,V,A> {
     @SuppressWarnings({ "unchecked" })
 	public A getInfoArc(K idVertexIni, K idVertexFin)
     {
-    	
-		return (A) vertices.get(idVertexIni).getArco(idVertexFin).darInfo();
+    	A rta = null;
+    	try {
+			rta =  (A) vertices.get(idVertexIni).getArco(idVertexFin).darInfo();
+		}
+		catch(java.lang.NullPointerException e){
+			
+		}
+		return rta;
     }
     
     /**

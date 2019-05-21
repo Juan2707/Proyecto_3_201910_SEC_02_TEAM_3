@@ -34,7 +34,7 @@ public class Controller {
 	ArrayList<arcs> arcos= new ArrayList();
 
 	ArrayList<String> llaves = new ArrayList();
-	
+
 	Graph<String, Node, Integer> grafoData;
 
 	/**
@@ -42,7 +42,7 @@ public class Controller {
 	 */
 	public Controller()
 	{
-		
+
 		grafoData = new Graph<String, Node, Integer>(745747);
 		view = new MovingViolationsManagerView();
 	}
@@ -288,14 +288,14 @@ public class Controller {
 
 			Iterator <String> iteratorArrayInfracciones = null;
 			Iterator <String> iteratorArrayAdjacente = null;
-			
+
 			Queue<Arco<String, String>> colaTemp;
-			
+
 			Node nodoAdyacente = null;
 			Node nodo;
-			
+
 			for (Object object : json ) {
-				
+
 				actual = (JSONObject) object;
 				id =  (String) actual.get("id");
 				lat = Double.parseDouble( actual.get("lat").toString() );
@@ -305,23 +305,25 @@ public class Controller {
 				arrayAdjacente = (JSONArray) actual.get("adj");
 				iteratorArrayInfracciones = arrayInfracciones.iterator();
 				iteratorArrayAdjacente = arrayAdjacente.iterator();
-				
+
 				idAdyacente = "";
-				
+
 				nodoAdyacente = null;
-				
+
 				nodo = new Node(id, lon, lat);
 				grafoData.addVertex(id, nodo);
-				
+
 				if (arcosEnCola.get(id) != null) {
 					for (Arco arco : arcosEnCola.get(id)) {
-						grafoData.addEdge(arco.darVerticeIni().toString(), arco.darVerticeFin().toString(), Integer.parseInt(arco.darInfo().toString()));
+						if ( grafoData.getInfoArc(arco.darVerticeFin().toString(), arco.darVerticeIni().toString()) != null) {
+							grafoData.addEdge(arco.darVerticeIni().toString(), arco.darVerticeFin().toString(), Integer.parseInt(arco.darInfo().toString()));
+						}
 					}
 					colaTemp = new Queue<Arco<String, String>>();
 					arcosEnCola.put(id, colaTemp);
 				}
 
-				
+
 				while (iteratorArrayAdjacente.hasNext()) {
 					idAdyacente = iteratorArrayAdjacente.next();
 					nodoAdyacente = grafoData.getInfoVertex(idAdyacente);
@@ -340,9 +342,9 @@ public class Controller {
 						}
 					}
 				}
-				
+
 			}
-			
+
 			view.printMessage(Integer.toString(grafoData.E()));
 			view.printMessage(Integer.toString(grafoData.V()));
 
